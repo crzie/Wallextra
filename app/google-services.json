@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "938033611104",
+    "project_id": "wallextra-e6c71",
+    "storage_bucket": "wallextra-e6c71.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938033611104:android:3748d49429fa26e75c1e05",
+        "android_client_info": {
+          "package_name": "com.example.wallextra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr9JtWuppEG09uFwsXjHaFlzDk-OTdXUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
