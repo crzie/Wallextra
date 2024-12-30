@@ -77,7 +77,7 @@ public class WalletViewModel extends ViewModel {
         data.put("name", name);
         data.put("balance", balance);
         data.put("ownerId", currentUser.getUid());
-        data.put("isDeleted", false);
+//        data.put("isDeleted", false);
         if(imageUrl != null) {
             data.put("imageUrl", imageUrl);
         }
@@ -102,7 +102,7 @@ public class WalletViewModel extends ViewModel {
         String userId = currentUser.getUid();
         db.collection("wallets")
                 .whereEqualTo("ownerId", userId)
-                .whereEqualTo("isDeleted", false)
+//                .whereEqualTo("isDeleted", false)
                 .get()
                 .addOnSuccessListener(snapshot -> {
                     ArrayList<Wallet> wallets = new ArrayList<>();
@@ -147,8 +147,8 @@ public class WalletViewModel extends ViewModel {
                 throw new IllegalStateException("Unauthorized");
             }
 
-//            transaction.delete(walletRef);
-            transaction.update(walletRef, "isDeleted", true);
+            transaction.delete(walletRef);
+//            transaction.update(walletRef, "isDeleted", true);
             return null;
         }).addOnSuccessListener(aVoid -> {
             deleteWalletState.setValue(Response.success("Delete wallet success", null));

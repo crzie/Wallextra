@@ -35,6 +35,7 @@ public class TransactionViewModel extends ViewModel {
     private final MutableLiveData<Response<ArrayList<Transaction>>> fetchTransactionState = new MutableLiveData<>();
     private final MutableLiveData<Response<Void>> deleteTransactionState = new MutableLiveData<>();
 
+    // TODO change to wallet object, not only id
     public void addTransaction(String name, TransactionType type, Long amount, String walletId) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
@@ -77,17 +78,16 @@ public class TransactionViewModel extends ViewModel {
             data.put("amount", amount);
             data.put("date", new Date());
             data.put("ownerId", walletSnapshot.getString("ownerId"));
-            walletData.put("id", walletId);
+            data.put("walletId", walletId);
             walletData.put("name", walletSnapshot.getString("name"));
             walletData.put("imageUrl", walletSnapshot.getString("imageUrl"));
             data.put("wallet", walletData);
 
-            db.collection("transactions").add(data);
+            db.collection("transactions").add(data).getResult().getId();
             return null;
         }).addOnSuccessListener(aVoid -> {
             addTransactionState.setValue(Response.success("Add transaction success", null));
-        })
-        .addOnFailureListener(e -> {
+        }).addOnFailureListener(e -> {
             addTransactionState.setValue(Response.error(e.getMessage()));
         });
     }
@@ -95,7 +95,7 @@ public class TransactionViewModel extends ViewModel {
     public void fetchUserTransactionsByMonthAndYear(Month month, int year) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
-            addTransactionState.setValue(Response.error("Unauthorized"));
+            fetchTransactionState.setValue(Response.error("Unauthorized"));
             return;
         }
 
@@ -119,7 +119,7 @@ public class TransactionViewModel extends ViewModel {
     public void fetchRecentUserTransactions(int number) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
-            addTransactionState.setValue(Response.error("Unauthorized"));
+            fetchTransactionState.setValue(Response.error("Unauthorized"));
             return;
         }
 
@@ -144,10 +144,10 @@ public class TransactionViewModel extends ViewModel {
 
             if (walletData != null) {
                 wallet = new Wallet(
-                        (String) walletData.get("id"),
+                        doc.getString("walletId"),
                         (String) walletData.get("name"),
                         null,
-                        (String) walletData.get("ownerId"),
+                        doc.getString("ownerId"),
                         (String) walletData.get("imageUrl")
                 );
             }
@@ -170,7 +170,7 @@ public class TransactionViewModel extends ViewModel {
     public void deleteTransaction(String transactionId) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
-            addTransactionState.setValue(Response.error("Unauthorized"));
+            deleteTransactionState.setValue(Response.error("Unauthorized"));
             return;
         }
 
@@ -201,7 +201,7 @@ public class TransactionViewModel extends ViewModel {
                     throw new IllegalStateException("Invalid wallet or transaction fields");
                 }
 
-                final Long newBalance;
+                final long newBalance;
                 if (type.equals(TransactionType.INCOME.toString())) {
                     newBalance = currentBalance - amount;
                 } else if (type.equals(TransactionType.EXPENSE.toString())) {
@@ -217,7 +217,8 @@ public class TransactionViewModel extends ViewModel {
             return null;
         }).addOnSuccessListener(aVoid -> {
            deleteTransactionState.setValue(Response.success("Delete transaction success", null));
-        }).addOnFailureListener(e -> {
+        })
+        .addOnFailureListener(e -> {
            deleteTransactionState.setValue(Response.error(e.getMessage()));
         });
     }
