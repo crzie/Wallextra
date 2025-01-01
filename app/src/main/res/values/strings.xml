@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Wallextra</string>
+    <string name="forgot_your_password"><u>Forgot your password?</u></string>
 </resources>
