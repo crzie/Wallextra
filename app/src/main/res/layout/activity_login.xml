@@ -82,6 +82,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <EditText
+                android:id="@+id/email_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
@@ -92,6 +93,7 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
@@ -99,7 +101,8 @@
                 android:hint="Password"
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="10dp"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:inputType="textPassword"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -109,6 +112,7 @@
                 android:textColor="@color/green_primary"
                 android:text="@string/forgot_your_password"/>
             <Button
+                android:id="@+id/login_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"

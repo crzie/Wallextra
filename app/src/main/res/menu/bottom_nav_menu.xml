@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/view_wallet_fragment"
+        android:title="Wallet"
+        android:icon="@drawable/wallet_icon" />
+    <item
+        android:id="@+id/home_fragment"
+        android:title="Home"
+        android:icon="@drawable/home_icon" />
+    <item
+        android:id="@+id/transaction_fragment"
+        android:title="Transaction"
+        android:icon="@drawable/transaction_icon"/>
+</menu>

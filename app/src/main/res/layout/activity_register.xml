@@ -82,6 +82,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <EditText
+                android:id="@+id/email_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="26dp"
@@ -92,6 +93,7 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
@@ -102,33 +104,38 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:background="@drawable/background_login_edit_text"
                 android:hint="Password"
+                android:inputType="textPassword"
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="10dp"
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/confirm_password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:background="@drawable/background_login_edit_text"
                 android:hint="Confirm Password"
+                android:inputType="textPassword"
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="10dp"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <Button
+                android:id="@+id/register_button"
+                style="@style/LoginButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:text="REGISTER"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                style="@style/LoginButton"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

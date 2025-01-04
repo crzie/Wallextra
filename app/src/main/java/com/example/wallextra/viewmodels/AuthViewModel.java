@@ -14,16 +14,19 @@ import java.util.Objects;
 public class AuthViewModel extends ViewModel {
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-    private final MutableLiveData<Response<Void>> authState = new MutableLiveData<>();
+    private final MutableLiveData<Response<Void>> loginState = new MutableLiveData<>();
     private final MutableLiveData<Response<Void>> registerState = new MutableLiveData<>();
 
+    public FirebaseUser getCurrentUser() {
+        return mAuth.getCurrentUser();
+    }
     public void login(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(result -> {
-                    authState.setValue(Response.success("Login success", null));
+                    loginState.setValue(Response.success("Login success", null));
                 })
                 .addOnFailureListener(e -> {
-                    authState.setValue(Response.error(e.getMessage()));
+                    loginState.setValue(Response.error(e.getMessage()));
                 });
     }
 
@@ -53,8 +56,8 @@ public class AuthViewModel extends ViewModel {
         mAuth.signOut();
     }
 
-    public LiveData<Response<Void>> getAuthState() {
-        return authState;
+    public LiveData<Response<Void>> getLoginState() {
+        return loginState;
     }
     public LiveData<Response<Void>> getRegisterState() { return registerState; }
 
