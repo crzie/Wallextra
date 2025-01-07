@@ -71,18 +71,12 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/wallet_recycler_view_view"
+                android:id="@+id/wallet_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:visibility="visible" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/wallet_recycler_view_delete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:visibility="gone" />
+                android:visibility="visible"
+                android:layout_marginHorizontal="12dp"/>
 
         </LinearLayout>
 
