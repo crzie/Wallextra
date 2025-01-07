@@ -10,12 +10,6 @@
         android:label="Home"
         tools:layout="@layout/fragment_home" />
 
-    <fragment
-        android:id="@+id/view_wallet_fragment"
-        android:name="com.example.wallextra.views.fragments.ViewWalletFragment"
-        android:label="View Wallet"
-        tools:layout="@layout/fragment_view_wallet" />
-
 <!--    <fragment-->
 <!--        android:id="@+id/transactions_fragment"-->
 <!--        android:name="com.example.wallextra.views.fragments.TransactionsFragment"-->
