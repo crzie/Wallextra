@@ -10,7 +10,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#13A243"
+        android:background="@drawable/background_gradient"
         android:padding="16dp">
 
         <LinearLayout
@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Wallet Transfer"
+                android:fontFamily="@font/montserrat_bold"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"/>
@@ -54,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:text="From Wallet"
                 android:textColor="@android:color/white"
+                android:fontFamily="@font/montserrat_regular"
                 android:textSize="18dp"
                 android:gravity="center"
                 android:layout_marginTop="16dp" />
@@ -62,6 +64,7 @@
                 android:id="@+id/fromWalletSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
                 android:backgroundTint="@android:color/white"
                 android:padding="12dp"
                 android:hint="From Wallet"/>
@@ -81,6 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="To Wallet"
+                android:fontFamily="@font/montserrat_regular"
                 android:textColor="@android:color/white"
                 android:textSize="18dp"
                 android:gravity="center"
@@ -91,6 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/white"
+                android:fontFamily="@font/montserrat_regular"
                 android:padding="12dp"
                 android:hint="To Wallet"/>
         </LinearLayout>
@@ -109,6 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Amount"
+                android:fontFamily="@font/montserrat_regular"
                 android:textColor="@android:color/white"
                 android:textSize="18dp"
                 android:gravity="center"
@@ -119,6 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Amount"
+                android:fontFamily="@font/montserrat_regular"
                 android:backgroundTint="@android:color/white"
                 android:inputType="numberDecimal"
                 android:textColor="@android:color/black"
@@ -139,6 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Admin Fee (Empty if none)"
+                android:fontFamily="@font/montserrat_regular"
                 android:textColor="@android:color/white"
                 android:textSize="18dp"
                 android:gravity="center"
@@ -149,6 +157,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Admin Fee (Empty if none)"
+                android:fontFamily="@font/montserrat_regular"
                 android:backgroundTint="@android:color/white"
                 android:inputType="numberDecimal"
                 android:textColor="@android:color/black"
@@ -163,6 +172,7 @@
             android:textColor="@android:color/white"
             android:textSize="12sp"
             android:gravity="center"
+            android:fontFamily="@font/montserrat_regular"
             app:layout_constraintTop_toBottomOf="@id/layoutAdminFee"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -173,10 +183,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/white"
+            android:fontFamily="@font/montserrat_bold"
             android:text="Transfer"
             android:textSize="16dp"
             android:textColor="#04862F"
-            android:textStyle="bold"
             android:padding="8dp"
             app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
             app:layout_constraintStart_toStartOf="parent"
