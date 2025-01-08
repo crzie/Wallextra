@@ -1,5 +1,6 @@
 package com.example.wallextra.views.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,12 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.wallextra.R;
 import com.example.wallextra.databinding.ItemLayoutViewWalletBinding;
 import com.example.wallextra.models.MutableBoolean;
 import com.example.wallextra.models.Wallet;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ViewWalletAdapter extends RecyclerView.Adapter<ViewWalletAdapter.ViewHolder>{
     private final ArrayList<Wallet> wallets;
@@ -31,6 +34,16 @@ public class ViewWalletAdapter extends RecyclerView.Adapter<ViewWalletAdapter.Vi
     }
 
     @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (!payloads.isEmpty()) {
+            boolean isDeleting = (boolean) payloads.get(0);
+            holder.updateTrashButtonVisibility(isDeleting);
+        } else {
+            onBindViewHolder(holder, position);
+        }
+    }
+
+    @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Wallet wallet = wallets.get(position);
         holder.bind(wallet, isDeleting);
@@ -39,6 +52,10 @@ public class ViewWalletAdapter extends RecyclerView.Adapter<ViewWalletAdapter.Vi
     @Override
     public int getItemCount() {
         return wallets.size();
+    }
+
+    public void notifyDeletingToggled() {
+        notifyItemRangeChanged(0, getItemCount(), isDeleting.value);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -50,12 +67,20 @@ public class ViewWalletAdapter extends RecyclerView.Adapter<ViewWalletAdapter.Vi
 
         public void bind(Wallet wallet, MutableBoolean isDeleting) {
             binding.setWallet(wallet);
-            if(isDeleting.value) {
-                binding.trashButton.setVisibility(View.VISIBLE);
-            } else {
-                binding.trashButton.setVisibility(View.GONE);
+            updateTrashButtonVisibility(isDeleting.value);
+
+            if(wallet.getImageUrl() != null) {
+                Glide.with(binding.walletImage.getContext())
+                        .load(wallet.getImageUrl())
+                        .into(binding.walletImage);
+
+                binding.walletImagePlaceholder.setVisibility(View.GONE);
+                binding.walletImage.setVisibility(View.VISIBLE);
             }
-            // TODO: render image
+        }
+
+        public void updateTrashButtonVisibility(boolean isDeleting) {
+            binding.trashButton.setVisibility(isDeleting ? View.VISIBLE : View.GONE);
         }
     }
 }
