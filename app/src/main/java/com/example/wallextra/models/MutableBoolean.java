@@ -6,5 +6,9 @@ public class MutableBoolean {
     public MutableBoolean(boolean value) {
         this.value = value;
     }
+
+    public boolean isTrue() {
+        return value;
+    }
 }
 

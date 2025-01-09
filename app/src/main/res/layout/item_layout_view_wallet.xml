@@ -20,18 +20,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="999dp">
-
+            <LinearLayout
+                android:id="@+id/wallet_image_placeholder"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:gravity="center"
+                android:background="#57AF59">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/wallet_icon"
+                    app:tint="#1F5B00" />
+            </LinearLayout>
             <ImageView
                 android:id="@+id/wallet_image"
                 android:layout_width="75dp"
-                android:layout_height="75dp" />
+                android:layout_height="75dp"
+                android:visibility="gone"/>
         </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/wallet_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:layout_weight="1"
             android:fontFamily="@font/montserrat_medium"
             android:text="@{wallet.name}"

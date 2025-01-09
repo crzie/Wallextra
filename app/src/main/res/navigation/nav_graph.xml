@@ -9,7 +9,6 @@
         android:name="com.example.wallextra.views.fragments.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" />
-
     <fragment
         android:id="@+id/view_wallet_fragment"
         android:name="com.example.wallextra.views.fragments.ViewWalletFragment"
@@ -17,8 +16,15 @@
         tools:layout="@layout/fragment_view_wallet"/>
 
     <fragment
+        android:id="@+id/add_wallet_fragment"
+        android:name="com.example.wallextra.views.fragments.AddWalletFragment"
+        android:label="Add Wallet"
+        tools:layout="@layout/fragment_add_wallet"/>
+
+    <fragment
         android:id="@+id/transaction_fragment"
         android:name="com.example.wallextra.views.fragments.ViewTransactionFragment"
         android:label="Transaction"
         tools:layout="@layout/fragment_view_transaction"/>
+
 </navigation>

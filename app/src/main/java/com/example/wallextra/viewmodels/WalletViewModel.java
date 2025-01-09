@@ -49,7 +49,7 @@ public class WalletViewModel extends ViewModel {
         new Thread(() -> {
             try {
                 String fileExtension = Helper.getFileExtension(context, image);
-                String fileName = "wallet_images/" + UUID.randomUUID() + fileExtension;
+                String fileName = "wallet_images/" + UUID.randomUUID() + "." + fileExtension;
 
                 InputStream inputStream = context.getContentResolver().openInputStream(image);
 
@@ -57,7 +57,7 @@ public class WalletViewModel extends ViewModel {
                         .uploadAndFinish(inputStream);
 
                 String sharedLink = client.sharing().createSharedLinkWithSettings("/" + fileName).getUrl();
-                String directLink = sharedLink.replace("?dl=0", "?raw=1");
+                String directLink = sharedLink.replace("&dl=0", "&raw=1");
 
                 saveWalletToDatabase(name, balance, directLink);
             } catch (Exception e) {
@@ -162,4 +162,7 @@ public class WalletViewModel extends ViewModel {
         return fetchWalletState;
     }
     public LiveData<Response<Void>> getDeleteWalletState() { return deleteWalletState; }
+    public void resetAddWalletState() {
+        addWalletState.setValue(null);
+    }
 }
