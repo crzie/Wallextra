@@ -64,4 +64,5 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.dropbox.core.sdk)
     implementation(libs.glide)
+    implementation(libs.firebase.messaging)
 }
