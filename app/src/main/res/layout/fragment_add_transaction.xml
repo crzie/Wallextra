@@ -91,12 +91,26 @@
                 android:gravity="center"
                 android:layout_marginTop="16dp" />
 
-            <Spinner
-                android:id="@+id/transactionTypeSpinner"
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/white"
-                android:padding="12dp"/>
+                android:layout_marginRight="10dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ddl_type"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/ddl_type_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:hint="Type"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -151,12 +165,26 @@
                 android:gravity="center"
                 android:layout_marginTop="16dp" />
 
-            <Spinner
-                android:id="@+id/walletSpinner"
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/white"
-                android:padding="12dp"/>
+                android:layout_marginRight="10dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ddl_wallet"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/ddl_wallet_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:hint="Wallet"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </LinearLayout>
 
         <Button

@@ -6,12 +6,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -28,20 +32,25 @@ import com.example.wallextra.viewmodels.WalletViewModel;
 import com.example.wallextra.views.adapters.ViewWalletAdapter;
 import com.google.android.material.tabs.TabLayout;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ViewTransactionFragment extends Fragment {
     private TransactionViewModel transactionViewModel;
     private FragmentViewTransactionBinding binding;
     private MutableBoolean isDeleting = new MutableBoolean(false);
     private ArrayList<Transaction> transactions = new ArrayList<>();
+    private Month months = Month.JANUARY;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentViewTransactionBinding.inflate(inflater, container, false);
 
-        final Month[] months = {Month.JANUARY};
+        initializeDropdown();
+
+
         TabLayout tabLayout = binding.monthTabLayout;
         tabLayout.addTab(tabLayout.newTab().setText("January"));
         tabLayout.addTab(tabLayout.newTab().setText("February"));
@@ -59,7 +68,7 @@ public class ViewTransactionFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int index = tab.getPosition();
-                months[0] = getMonth(index);
+                months = getMonth(index);
             }
 
             @Override
@@ -74,14 +83,12 @@ public class ViewTransactionFragment extends Fragment {
         });
 
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-
-        //Masih hardcoded year e
-        transactionViewModel.fetchUserTransactionsByMonthAndYear(months[0],2022);
+        transactionViewModel.fetchUserTransactionsByMonthAndYear(months,2024);
 
 //        ViewAdapter adapter = new ViewWalletAdapter(wallets, isDeleting);
 //        binding.walletRecyclerView.setAdapter(adapter);
-        binding.walletRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.walletRecyclerView.setHasFixedSize(true);
+//        binding.walletRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        binding.walletRecyclerView.setHasFixedSize(true);
 
         binding.deleteButton.setOnClickListener(v -> {
             binding.deleteButton.setVisibility(View.GONE);
@@ -98,7 +105,8 @@ public class ViewTransactionFragment extends Fragment {
         });
 
         binding.addTransactionButton.setOnClickListener(v -> {
-            // pindah fragment
+            NavController navController = Navigation.findNavController(requireView());
+            navController.navigate(R.id.add_transaction_fragment);
         });
 
 //        transactions.add(new Transaction("wl", "bca", 10000L, "lol", "asd"));
@@ -112,9 +120,26 @@ public class ViewTransactionFragment extends Fragment {
             }
         });
 
-
-
         return binding.getRoot();
+    }
+
+    private void initializeDropdown() {
+        ArrayList<String> cycles = new ArrayList<>();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        for (int i = 2024; i<=currentDateTime.getYear(); i++){
+            cycles.add(String.valueOf(i));
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.list_item, cycles);
+
+        binding.autoCompleteText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedYear = adapter.getItem(position);
+                transactionViewModel.fetchUserTransactionsByMonthAndYear(months,Integer.parseInt(selectedYear));
+            }
+        });
+
+        binding.autoCompleteText.setAdapter(adapter);
     }
 
     private Month getMonth (int position) {
