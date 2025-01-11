@@ -43,8 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_medium"
-            android:text="@{transaction.type.equals(`Income`) ? `+` : `-` + `Rp` + transaction.amount}"
-            android:textColor="@color/white"
+            android:text="@{transaction.type.value.equals(`Income`) ? `+Rp` + transaction.amount : `-Rp` + transaction.amount}"
+            android:textColor="@{transaction.type.value.equals(`Income`) ? `#2BFF2B` : `#880000`}"
             android:textSize="20sp"
             tools:text="Rp100000" />
 

@@ -65,6 +65,11 @@ public class ViewWalletFragment extends Fragment {
             navController.navigate(R.id.add_wallet_fragment);
         });
 
+        binding.transferButton.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(requireView());
+            navController.navigate(R.id.transfer_wallet_fragment);
+        });
+
         walletViewModel.getFetchWalletState().observe(getViewLifecycleOwner(), response -> {
             if(response.isSuccess()) {
                 wallets.clear();
