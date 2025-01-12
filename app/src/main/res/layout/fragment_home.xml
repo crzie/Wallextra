@@ -81,12 +81,12 @@
                         android:textColor="@color/green_primary"
                         android:textSize="20sp" />
 
-                    <ImageView
-                        android:id="@+id/add_buttom"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_alignParentEnd="true"
-                        android:src="@drawable/add_icon" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/add_buttom"-->
+<!--                        android:layout_width="35dp"-->
+<!--                        android:layout_height="35dp"-->
+<!--                        android:layout_alignParentEnd="true"-->
+<!--                        android:src="@drawable/add_icon" />-->
 
                 </RelativeLayout>
 
@@ -107,18 +107,18 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/view_wallet"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="View Wallet"
-                        android:textColor="@color/green_primary"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/balance_amount" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/view_wallet"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:fontFamily="@font/montserrat_regular"-->
+<!--                        android:text="View Wallet"-->
+<!--                        android:textColor="@color/green_primary"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/balance_amount" />-->
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -136,18 +136,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/card_net_balance" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/app_compat_button"
-                android:layout_width="100dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/button"
-                android:fontFamily="@font/montserrat_regular"
-                android:text="View All"
-                android:textColor="@color/green_primary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/card_net_balance" />
+<!--            <androidx.appcompat.widget.AppCompatButton-->
+<!--                android:id="@+id/view_all_button"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginRight="16dp"-->
+<!--                android:background="@drawable/button"-->
+<!--                android:fontFamily="@font/montserrat_regular"-->
+<!--                android:text="View All"-->
+<!--                android:textColor="@color/green_primary"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/card_net_balance" />-->
 
             <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
             <!--        android:id="@+id/buttomBar"-->
@@ -158,14 +158,27 @@
             <!--        app:menu="@menu/button_bar"-->
             <!--        app:itemTextColor="@color/black"-->
             <!--        android:background="#E0FFE4"/>-->
-
+            <TextView
+                android:id="@+id/no_transactions_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No transactions yet"
+                android:textSize="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recent_transactions"/>
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/base_transaction_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/app_compat_button" />
+                app:layout_constraintTop_toBottomOf="@+id/no_transactions_text_view" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

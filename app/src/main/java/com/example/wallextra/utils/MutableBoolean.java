@@ -1,4 +1,4 @@
-package com.example.wallextra.models;
+package com.example.wallextra.utils;
 
 public class MutableBoolean {
     public boolean value;

@@ -35,8 +35,7 @@ public class TransactionViewModel extends ViewModel {
     private final MutableLiveData<Response<ArrayList<Transaction>>> fetchTransactionState = new MutableLiveData<>();
     private final MutableLiveData<Response<Void>> deleteTransactionState = new MutableLiveData<>();
 
-    // TODO change to wallet object, not only id
-    public void addTransaction(String name, TransactionType type, Long amount, String walletId) {
+    public void addTransaction(String name, TransactionType type, Long amount, Wallet wallet) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
             addTransactionState.setValue(Response.error("Unauthorized"));
@@ -47,7 +46,7 @@ public class TransactionViewModel extends ViewModel {
 
         db.runTransaction(transaction -> {
             // reduce/increase wallet amount, then add to transaction collection
-            DocumentReference walletRef = db.collection("wallets").document(walletId);
+            DocumentReference walletRef = db.collection("wallets").document(wallet.getId());
 
             DocumentSnapshot walletSnapshot = transaction.get(walletRef);
             if(!walletSnapshot.exists()) {
@@ -77,13 +76,13 @@ public class TransactionViewModel extends ViewModel {
             data.put("type", type.toString());
             data.put("amount", amount);
             data.put("date", new Date());
-            data.put("ownerId", walletSnapshot.getString("ownerId"));
-            data.put("walletId", walletId);
-            walletData.put("name", walletSnapshot.getString("name"));
-            walletData.put("imageUrl", walletSnapshot.getString("imageUrl"));
+            data.put("ownerId", wallet.getOwnerId());
+            data.put("walletId", wallet.getId());
+            walletData.put("name", wallet.getName());
+            walletData.put("imageUrl", wallet.getImageUrl());
             data.put("wallet", walletData);
 
-            db.collection("transactions").add(data).getResult().getId();
+            db.collection("transactions").add(data);
             return null;
         }).addOnSuccessListener(aVoid -> {
             addTransactionState.setValue(Response.success("Add transaction success", null));
@@ -233,5 +232,8 @@ public class TransactionViewModel extends ViewModel {
 
     public LiveData<Response<Void>> getDeleteTransactionState() {
         return deleteTransactionState;
+    }
+    public void resetAddTransactionState() {
+        addTransactionState.setValue(null);
     }
 }

@@ -293,15 +293,16 @@ public class WalletTransferViewModel extends ViewModel {
                 throw new IllegalStateException("Invalid wallet transfer fields");
             }
 
-            if (adminTransactionId != null) {
-                deleteAdminTransaction(transaction, adminTransactionId);
-            }
-
             // revert only if the wallets exist (not deleted)
             DocumentReference sourceWalletRef = db.collection("wallets").document(sourceWalletId);
             DocumentReference destWalletRef = db.collection("wallets").document(destWalletId);
             DocumentSnapshot sourceWalletSnapshot = transaction.get(sourceWalletRef);
             DocumentSnapshot destWalletSnapshot = transaction.get(destWalletRef);
+
+            if (adminTransactionId != null) {
+                deleteAdminTransaction(transaction, adminTransactionId);
+            }
+
             if (sourceWalletSnapshot.exists()) {
                 Long currentBalance = sourceWalletSnapshot.getLong("balance");
                 if (currentBalance == null) {
@@ -368,15 +369,19 @@ public class WalletTransferViewModel extends ViewModel {
         transaction.delete(transactionRef);
     }
 
-    public LiveData<Response<Void>> getAddTransactionState() {
+    public LiveData<Response<Void>> getAddWalletTransferState() {
         return addWalletTransferState;
     }
 
-    public LiveData<Response<ArrayList<WalletTransfer>>> getFetchTransactionState() {
+    public LiveData<Response<ArrayList<WalletTransfer>>> getFetchWalletTransferState() {
         return fetchWalletTransferState;
     }
 
-    public LiveData<Response<Void>> getDeleteTransactionState() {
+    public LiveData<Response<Void>> getDeleteWalletTransferState() {
         return deleteWalletTransferState;
+    }
+
+    public void resetAddWalletTransferState() {
+        addWalletTransferState.setValue(null);
     }
 }

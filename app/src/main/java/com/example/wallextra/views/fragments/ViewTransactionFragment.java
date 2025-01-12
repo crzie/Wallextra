@@ -2,9 +2,8 @@ package com.example.wallextra.views.fragments;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -14,42 +13,42 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.wallextra.R;
 import com.example.wallextra.databinding.FragmentViewTransactionBinding;
-import com.example.wallextra.databinding.FragmentViewWalletBinding;
+import com.example.wallextra.models.BaseTransaction;
 import com.example.wallextra.models.Month;
-import com.example.wallextra.models.MutableBoolean;
+import com.example.wallextra.models.WalletTransfer;
+import com.example.wallextra.utils.MutableBoolean;
 import com.example.wallextra.models.Transaction;
-import com.example.wallextra.models.Wallet;
 import com.example.wallextra.viewmodels.TransactionViewModel;
-import com.example.wallextra.viewmodels.WalletViewModel;
-import com.example.wallextra.views.adapters.ViewWalletAdapter;
+import com.example.wallextra.viewmodels.WalletTransferViewModel;
+import com.example.wallextra.views.adapters.ViewTransactionAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
+import java.util.Objects;
 
 public class ViewTransactionFragment extends Fragment {
     private TransactionViewModel transactionViewModel;
+    private WalletTransferViewModel walletTransferViewModel;
     private FragmentViewTransactionBinding binding;
     private MutableBoolean isDeleting = new MutableBoolean(false);
-    private ArrayList<Transaction> transactions = new ArrayList<>();
-    private Month months = Month.JANUARY;
+    private ArrayList<BaseTransaction> baseTransactions = new ArrayList<>();
+    private Month selectedMonth;
+    private int selectedYear;
+    private MutableLiveData<ArrayList<Transaction>> transactions = new MutableLiveData<>(new ArrayList<>());
+    private MutableLiveData<ArrayList<WalletTransfer>> walletTransfers = new MutableLiveData<>(new ArrayList<>());
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentViewTransactionBinding.inflate(inflater, container, false);
-
-        initializeDropdown();
-
 
         TabLayout tabLayout = binding.monthTabLayout;
         tabLayout.addTab(tabLayout.newTab().setText("January"));
@@ -68,7 +67,9 @@ public class ViewTransactionFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int index = tab.getPosition();
-                months = getMonth(index);
+                selectedMonth = getMonth(index);
+                transactionViewModel.fetchUserTransactionsByMonthAndYear(selectedMonth, selectedYear);
+                walletTransferViewModel.fetchUserWalletTransfersByMonthAndYear(selectedMonth, selectedYear);
             }
 
             @Override
@@ -82,41 +83,129 @@ public class ViewTransactionFragment extends Fragment {
             }
         });
 
-        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-        transactionViewModel.fetchUserTransactionsByMonthAndYear(months,2024);
+        transactionViewModel = new ViewModelProvider(requireActivity()).get(TransactionViewModel.class);
+        walletTransferViewModel = new ViewModelProvider(requireActivity()).get(WalletTransferViewModel.class);
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        selectedMonth = getMonth(currentDateTime.getMonth().getValue() - 1);
+        selectedYear = currentDateTime.getYear();
+        transactionViewModel.fetchUserTransactionsByMonthAndYear(selectedMonth, selectedYear);
+        walletTransferViewModel.fetchUserWalletTransfersByMonthAndYear(selectedMonth, selectedYear);
 
-//        ViewAdapter adapter = new ViewWalletAdapter(wallets, isDeleting);
-//        binding.walletRecyclerView.setAdapter(adapter);
-//        binding.walletRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        binding.walletRecyclerView.setHasFixedSize(true);
+        tabLayout.selectTab(tabLayout.getTabAt(currentDateTime.getMonth().getValue() - 1));
+        initializeDropdown();
+
+        ViewTransactionAdapter adapter = new ViewTransactionAdapter(
+                baseTransactions,
+                isDeleting,
+                transactionId -> transactionViewModel.deleteTransaction(transactionId),
+                walletTransferId -> walletTransferViewModel.deleteWalletTransfer(walletTransferId)
+        );
+        binding.baseTransactionRecyclerView.setAdapter(adapter);
+        binding.baseTransactionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.baseTransactionRecyclerView.setHasFixedSize(true);
+
+        if(isDeleting.isTrue()) {
+            binding.deleteButton.setVisibility(View.GONE);
+            binding.viewButton.setVisibility(View.VISIBLE);
+        }
 
         binding.deleteButton.setOnClickListener(v -> {
             binding.deleteButton.setVisibility(View.GONE);
             binding.viewButton.setVisibility(View.VISIBLE);
             isDeleting.value = true;
-//            adapter.notifyDataSetChanged();
+            adapter.notifyDeletingToggled();
         });
 
         binding.viewButton.setOnClickListener(v -> {
             binding.viewButton.setVisibility(View.GONE);
             binding.deleteButton.setVisibility(View.VISIBLE);
             isDeleting.value = false;
-//            adapter.notifyDataSetChanged();
+            adapter.notifyDeletingToggled();
         });
 
+        binding.addWalletTransferButton.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(requireView());
+            navController.navigate(R.id.transfer_wallet_fragment);
+        });
         binding.addTransactionButton.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(requireView());
             navController.navigate(R.id.add_transaction_fragment);
         });
 
-//        transactions.add(new Transaction("wl", "bca", 10000L, "lol", "asd"));
-//        adapter.notifyDataSetChanged();
         transactionViewModel.getFetchTransactionState().observe(getViewLifecycleOwner(), response -> {
             if(response.isSuccess()) {
-                transactions = response.getData();
-//                adapter.notifyDataSetChanged();
+                transactions.setValue(response.getData());
             } else {
                 Toast.makeText(getContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("Firebase error", response.getMessage());
+            }
+        });
+
+        walletTransferViewModel.getFetchWalletTransferState().observe(getViewLifecycleOwner(), response -> {
+            if(response.isSuccess()) {
+                walletTransfers.setValue(response.getData());
+            } else {
+                Toast.makeText(getContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        transactions.observe(getViewLifecycleOwner(), transactionArrayList -> {
+            baseTransactions.clear();
+            baseTransactions.addAll(transactionArrayList);
+            baseTransactions.addAll(Objects.requireNonNull(walletTransfers.getValue()));
+            if(baseTransactions.isEmpty()) {
+                binding.noTransactionsTextView.setVisibility(View.VISIBLE);
+            } else {
+                binding.noTransactionsTextView.setVisibility(View.GONE);
+            }
+            Collections.sort(baseTransactions);
+            adapter.notifyDataSetChanged();
+        });
+
+        walletTransfers.observe(getViewLifecycleOwner(), walletTransfersArrayList -> {
+            baseTransactions.clear();
+            baseTransactions.addAll(walletTransfersArrayList);
+            baseTransactions.addAll(Objects.requireNonNull(transactions.getValue()));
+            if(baseTransactions.isEmpty()) {
+                binding.noTransactionsTextView.setVisibility(View.VISIBLE);
+            } else {
+                binding.noTransactionsTextView.setVisibility(View.GONE);
+            }
+            Collections.sort(baseTransactions);
+            adapter.notifyDataSetChanged();
+        });
+
+        transactionViewModel.getAddTransactionState().observe(getViewLifecycleOwner(), response -> {
+            if(response == null) return;
+
+            if(response.isSuccess()) {
+                transactionViewModel.fetchUserTransactionsByMonthAndYear(selectedMonth, selectedYear);
+                transactionViewModel.resetAddTransactionState();
+            }
+        });
+
+        walletTransferViewModel.getAddWalletTransferState().observe(getViewLifecycleOwner(), response -> {
+            if(response == null) return;
+
+            if(response.isSuccess()) {
+                walletTransferViewModel.fetchUserWalletTransfersByMonthAndYear(selectedMonth, selectedYear);
+                walletTransferViewModel.resetAddWalletTransferState();
+            }
+        });
+
+        transactionViewModel.getDeleteTransactionState().observe(getViewLifecycleOwner(), response -> {
+            if(response.isSuccess()) {
+                transactionViewModel.fetchUserTransactionsByMonthAndYear(selectedMonth, selectedYear);
+            } else {
+                Toast.makeText(requireContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        walletTransferViewModel.getDeleteWalletTransferState().observe(getViewLifecycleOwner(), response -> {
+            if(response.isSuccess()) {
+                walletTransferViewModel.fetchUserWalletTransfersByMonthAndYear(selectedMonth, selectedYear);
+            } else {
+                Toast.makeText(requireContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -134,10 +223,14 @@ public class ViewTransactionFragment extends Fragment {
         binding.autoCompleteText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedYear = adapter.getItem(position);
-                transactionViewModel.fetchUserTransactionsByMonthAndYear(months,Integer.parseInt(selectedYear));
+                String selectedYearString = adapter.getItem(position);
+                selectedYear = Integer.parseInt(selectedYearString);
+                transactionViewModel.fetchUserTransactionsByMonthAndYear(selectedMonth, selectedYear);
+                walletTransferViewModel.fetchUserWalletTransfersByMonthAndYear(selectedMonth, selectedYear);
             }
         });
+
+        binding.autoCompleteText.setText(String.valueOf(selectedYear));
 
         binding.autoCompleteText.setAdapter(adapter);
     }

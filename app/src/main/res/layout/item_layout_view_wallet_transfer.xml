@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="walletTransfer"
+            type="com.example.wallextra.models.WalletTransfer" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="10dp">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="999dp"
+                android:elevation="5dp">
+                <LinearLayout
+                    android:id="@+id/source_wallet_image_placeholder"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:gravity="center"
+                    android:background="#57AF59">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/wallet_icon"
+                        app:tint="#1F5B00" />
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/source_wallet_image"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:visibility="gone"/>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="999dp"
+                android:layout_marginStart="20dp"
+                android:elevation="10dp">
+                <LinearLayout
+                    android:id="@+id/dest_wallet_image_placeholder"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:gravity="center"
+                    android:background="#57AF59">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/wallet_icon"
+                        app:tint="#1F5B00" />
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/dest_wallet_image"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:visibility="gone"/>
+            </androidx.cardview.widget.CardView>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/wallet_transfer_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@{walletTransfer.sourceWallet.name + ` to ` + walletTransfer.destWallet.name}"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            tools:text="name" />
+
+        <TextView
+            android:id="@+id/wallet_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:text="@{`Rp` + walletTransfer.amount}"
+            tools:text="Rp100000" />
+
+        <!--            android:text='@{transaction.type.toString().equals("Income") ? "+Rp" + transaction.amount : "-Rp" + transaction.amount}'-->
+        <!--            android:textColor='@{transaction.type.toString().equals("Income") ? "#2BFF2B" : "#880000"}'-->
+
+        <ImageView
+            android:id="@+id/trash_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:src="@drawable/trash_icon" />
+    </LinearLayout>
+</layout>

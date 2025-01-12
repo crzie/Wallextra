@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".views.fragments.TransferWalletFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,9 +16,9 @@
             android:id="@+id/transferWalletHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:gravity="center">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/closeIcon"
@@ -32,11 +31,11 @@
                 android:id="@+id/titleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Wallet Transfer"
                 android:fontFamily="@font/montserrat_bold"
+                android:text="Wallet Transfer"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
 
@@ -45,20 +44,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/transferWalletHeader"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/transferWalletHeader">
 
             <TextView
                 android:id="@+id/textFromWallet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="center"
                 android:text="From Wallet"
                 android:textColor="@android:color/white"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="18dp"
-                android:gravity="center"
-                android:layout_marginTop="16dp" />
+                android:textSize="18dp" />
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
@@ -75,8 +74,9 @@
                         android:id="@+id/ddl_from_wallet_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="From Wallet"
                         android:inputType="none"
-                        android:hint="From Wallet"/>
+                        android:popupBackground="@color/green_primary" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -87,20 +87,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/layoutFromWallet"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/layoutFromWallet">
 
             <TextView
                 android:id="@+id/textToWallet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="To Wallet"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat_regular"
-                android:textColor="@android:color/white"
-                android:textSize="18dp"
                 android:gravity="center"
-                android:layout_marginTop="16dp" />
+                android:text="To Wallet"
+                android:textColor="@android:color/white"
+                android:textSize="18dp" />
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
@@ -117,8 +117,9 @@
                         android:id="@+id/ddl_to_wallet_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="To Wallet"
                         android:inputType="none"
-                        android:hint="To Wallet"/>
+                        android:popupBackground="@color/green_primary" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -129,31 +130,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/layouToWallet"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/layouToWallet">
 
             <TextView
                 android:id="@+id/textAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Amount"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat_regular"
-                android:textColor="@android:color/white"
-                android:textSize="18dp"
                 android:gravity="center"
-                android:layout_marginTop="16dp" />
+                android:text="Amount"
+                android:textColor="@android:color/white"
+                android:textSize="18dp" />
 
             <EditText
                 android:id="@+id/amountEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Amount"
-                android:fontFamily="@font/montserrat_regular"
                 android:backgroundTint="@android:color/white"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="Amount"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
-                android:padding="12dp"/>
+                android:padding="12dp"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <LinearLayout
@@ -161,61 +162,74 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/layoutAmount"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/layoutAmount">
 
             <TextView
                 android:id="@+id/textAdminFee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Admin Fee (Empty if none)"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat_regular"
-                android:textColor="@android:color/white"
-                android:textSize="18dp"
                 android:gravity="center"
-                android:layout_marginTop="16dp" />
+                android:text="Admin Fee (Empty if none)"
+                android:textColor="@android:color/white"
+                android:textSize="18dp" />
 
             <EditText
                 android:id="@+id/adminFeeEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Admin Fee (Empty if none)"
-                android:fontFamily="@font/montserrat_regular"
                 android:backgroundTint="@android:color/white"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="Admin Fee (Empty if none)"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
-                android:padding="12dp"/>
+                android:padding="12dp"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/descriptionTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:gravity="center"
             android:text="An expense transaction will be automatically created on the source (from) wallet if there is admin fee"
             android:textColor="@android:color/white"
             android:textSize="12sp"
-            android:gravity="center"
-            android:fontFamily="@font/montserrat_regular"
-            app:layout_constraintTop_toBottomOf="@id/layoutAdminFee"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutAdminFee" />
+
+        <TextView
+            android:id="@+id/error_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Insufficient Source Wallet Balance, reduce amount or add income transaction first"
+            android:textColor="#DDFF00"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descriptionTextView" />
 
         <Button
             android:id="@+id/transferButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:backgroundTint="@android:color/white"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Transfer"
-            android:textSize="16dp"
-            android:textColor="#04862F"
             android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="Transfer"
+            android:textColor="@color/submit_button_text_color"
+            android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/error_text_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -48,6 +48,8 @@ public class AddWalletFragment extends Fragment {
         });
 
         walletViewModel.getAddWalletState().observe(getViewLifecycleOwner(), response -> {
+            if(response == null) return;
+
             if(response.isSuccess()) {
                 back();
             } else {

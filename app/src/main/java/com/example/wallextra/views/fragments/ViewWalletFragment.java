@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.wallextra.R;
-import com.example.wallextra.databinding.FragmentHomeBinding;
 import com.example.wallextra.databinding.FragmentViewWalletBinding;
-import com.example.wallextra.models.MutableBoolean;
+import com.example.wallextra.utils.MutableBoolean;
 import com.example.wallextra.models.Wallet;
+import com.example.wallextra.viewmodels.WalletTransferViewModel;
 import com.example.wallextra.viewmodels.WalletViewModel;
 import com.example.wallextra.views.adapters.ViewWalletAdapter;
 
@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 public class ViewWalletFragment extends Fragment {
     private WalletViewModel walletViewModel;
+    private WalletTransferViewModel walletTransferViewModel;
     private FragmentViewWalletBinding binding;
     private MutableBoolean isDeleting = new MutableBoolean(false);
     private ArrayList<Wallet> wallets = new ArrayList<>();
@@ -34,9 +35,12 @@ public class ViewWalletFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentViewWalletBinding.inflate(inflater, container, false);
         walletViewModel = new ViewModelProvider(requireActivity()).get(WalletViewModel.class);
+        walletTransferViewModel = new ViewModelProvider(requireActivity()).get(WalletTransferViewModel.class);
 
         walletViewModel.fetchUserWallets();
-        ViewWalletAdapter adapter = new ViewWalletAdapter(wallets, isDeleting);
+        ViewWalletAdapter adapter = new ViewWalletAdapter(wallets, isDeleting, walletId -> {
+            walletViewModel.deleteWallet(walletId);
+        });
         binding.walletRecyclerView.setAdapter(adapter);
         binding.walletRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.walletRecyclerView.setHasFixedSize(true);
@@ -74,6 +78,11 @@ public class ViewWalletFragment extends Fragment {
             if(response.isSuccess()) {
                 wallets.clear();
                 wallets.addAll(response.getData());
+                if(wallets.isEmpty()) {
+                    binding.noWalletsTextView.setVisibility(View.VISIBLE);
+                } else {
+                    binding.noWalletsTextView.setVisibility(View.GONE);
+                }
                 adapter.notifyDataSetChanged();
             } else {
                 Toast.makeText(getContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
@@ -85,6 +94,24 @@ public class ViewWalletFragment extends Fragment {
 
             if(response.isSuccess()) {
                 walletViewModel.fetchUserWallets();
+                walletViewModel.resetAddWalletState();
+            }
+        });
+
+        walletTransferViewModel.getAddWalletTransferState().observe(getViewLifecycleOwner(), response -> {
+            if(response == null) return;
+
+            if(response.isSuccess()) {
+                walletViewModel.fetchUserWallets();
+                walletTransferViewModel.resetAddWalletTransferState();
+            }
+        });
+
+        walletViewModel.getDeleteWalletState().observe(getViewLifecycleOwner(), response -> {
+            if(response.isSuccess()) {
+                walletViewModel.fetchUserWallets();
+            } else {
+                Toast.makeText(requireContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         return binding.getRoot();

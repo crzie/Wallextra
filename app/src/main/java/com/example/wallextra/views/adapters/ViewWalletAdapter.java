@@ -1,6 +1,5 @@
 package com.example.wallextra.views.adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.wallextra.R;
 import com.example.wallextra.databinding.ItemLayoutViewWalletBinding;
-import com.example.wallextra.models.MutableBoolean;
+import com.example.wallextra.utils.ItemClickListener;
+import com.example.wallextra.utils.MutableBoolean;
 import com.example.wallextra.models.Wallet;
 
 import java.util.ArrayList;
@@ -20,10 +19,12 @@ import java.util.List;
 public class ViewWalletAdapter extends RecyclerView.Adapter<ViewWalletAdapter.ViewHolder>{
     private final ArrayList<Wallet> wallets;
     private final MutableBoolean isDeleting;
+    private final ItemClickListener deleteClickListener;
 
-    public ViewWalletAdapter(ArrayList<Wallet> wallets, MutableBoolean isDeleting) {
+    public ViewWalletAdapter(ArrayList<Wallet> wallets, MutableBoolean isDeleting, ItemClickListener deleteClickListener) {
         this.wallets = wallets;
         this.isDeleting = isDeleting;
+        this.deleteClickListener = deleteClickListener;
     }
 
     @NonNull
@@ -58,7 +59,7 @@ public class ViewWalletAdapter extends RecyclerView.Adapter<ViewWalletAdapter.Vi
         notifyItemRangeChanged(0, getItemCount(), isDeleting.value);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private ItemLayoutViewWalletBinding binding;
         public ViewHolder(ItemLayoutViewWalletBinding binding) {
             super(binding.getRoot());
@@ -77,6 +78,10 @@ public class ViewWalletAdapter extends RecyclerView.Adapter<ViewWalletAdapter.Vi
                 binding.walletImagePlaceholder.setVisibility(View.GONE);
                 binding.walletImage.setVisibility(View.VISIBLE);
             }
+
+            binding.trashButton.setOnClickListener(v -> {
+                deleteClickListener.handle(wallet.getId());
+            });
         }
 
         public void updateTrashButtonVisibility(boolean isDeleting) {
