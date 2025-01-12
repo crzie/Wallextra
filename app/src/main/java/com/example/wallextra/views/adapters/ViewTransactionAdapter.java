@@ -122,13 +122,23 @@ public class ViewTransactionAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             if(transaction.getType().equals(TransactionType.EXPENSE)) {
                 binding.transactionAmount.setText("-Rp" + transaction.getAmount());
                 binding.transactionAmount.setTextColor(ContextCompat.getColor(binding.getRoot().getContext(), R.color.red));
+                binding.descriptionTitle.setText(transaction.getWallet().getName() + " -> -Rp" + transaction.getAmount());
             } else {
                 binding.transactionAmount.setText("+Rp" + transaction.getAmount());
                 binding.transactionAmount.setTextColor(ContextCompat.getColor(binding.getRoot().getContext(), R.color.green_light));
+                binding.descriptionTitle.setText(transaction.getWallet().getName() + " -> +Rp" + transaction.getAmount());
             }
 
             binding.trashButton.setOnClickListener(v -> {
                 deleteTransactionClickListener.handle(transaction.getId());
+            });
+
+            binding.mainContainer.setOnClickListener(v -> {
+                if(binding.descriptionContainer.getVisibility() == View.GONE) {
+                    binding.descriptionContainer.setVisibility(View.VISIBLE);
+                } else {
+                    binding.descriptionContainer.setVisibility(View.GONE);
+                }
             });
         }
 
@@ -168,6 +178,14 @@ public class ViewTransactionAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             binding.trashButton.setOnClickListener(v -> {
                 deleteWalletTransferClickListener.handle(walletTransfer.getId());
+            });
+
+            binding.mainContainer.setOnClickListener(v -> {
+                if(binding.descriptionContainer.getVisibility() == View.GONE) {
+                    binding.descriptionContainer.setVisibility(View.VISIBLE);
+                } else {
+                    binding.descriptionContainer.setVisibility(View.GONE);
+                }
             });
         }
 

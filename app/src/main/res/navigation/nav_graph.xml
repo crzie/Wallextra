@@ -13,30 +13,35 @@
         android:id="@+id/view_wallet_fragment"
         android:name="com.example.wallextra.views.fragments.ViewWalletFragment"
         android:label="Wallets"
-        tools:layout="@layout/fragment_view_wallet"/>
+        tools:layout="@layout/fragment_view_wallet" />
 
     <fragment
         android:id="@+id/add_wallet_fragment"
         android:name="com.example.wallextra.views.fragments.AddWalletFragment"
         android:label="Add Wallet"
-        tools:layout="@layout/fragment_add_wallet"/>
+        tools:layout="@layout/fragment_add_wallet" />
 
     <fragment
         android:id="@+id/transfer_wallet_fragment"
         android:name="com.example.wallextra.views.fragments.TransferWalletFragment"
         android:label="Transfer Wallet"
-        tools:layout="@layout/fragment_transfer_wallet"/>
+        tools:layout="@layout/fragment_transfer_wallet" />
 
     <fragment
         android:id="@+id/transaction_fragment"
         android:name="com.example.wallextra.views.fragments.ViewTransactionFragment"
         android:label="Transaction"
-        tools:layout="@layout/fragment_view_transaction"/>
+        tools:layout="@layout/fragment_view_transaction" />
 
     <fragment
         android:id="@+id/add_transaction_fragment"
         android:name="com.example.wallextra.views.fragments.AddTransactionFragment"
         android:label="Add Transaction"
-        tools:layout="@layout/fragment_add_transaction"/>
+        tools:layout="@layout/fragment_add_transaction" />
 
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="com.example.wallextra.views.fragments.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

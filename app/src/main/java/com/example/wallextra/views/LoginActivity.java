@@ -31,6 +31,10 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         });
 
+        binding.forgotPasswordLink.setOnClickListener(v -> {
+            startActivity(new Intent(this, ForgotPasswordActivity.class));
+        });
+
         binding.loginButton.setOnClickListener(v -> {
             doLogin();
         });

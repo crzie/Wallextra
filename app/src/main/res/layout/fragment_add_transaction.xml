@@ -105,6 +105,7 @@
                         android:id="@+id/ddl_type_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_medium"
                         android:hint="Type"
                         android:inputType="none"
                         android:textColor="@color/black" />
@@ -180,6 +181,7 @@
                         android:id="@+id/ddl_wallet_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_medium"
                         android:hint="Wallet"
                         android:inputType="none"
                         android:popupBackground="@color/green_primary" />
@@ -192,6 +194,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/montserrat_medium"
                 android:text="Insufficient Wallet Balance, reduce amount or add income transaction first"
                 android:textColor="#DDFF00"
                 android:textSize="16sp"

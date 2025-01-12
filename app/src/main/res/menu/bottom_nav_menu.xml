@@ -13,4 +13,8 @@
         android:id="@+id/transaction_fragment"
         android:title="Transaction"
         android:icon="@drawable/transaction_icon"/>
+    <item
+        android:id="@+id/profile_fragment"
+        android:title="Profile"
+        android:icon="@drawable/profile_icon"/>
 </menu>

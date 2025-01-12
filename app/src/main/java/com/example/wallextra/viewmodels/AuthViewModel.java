@@ -16,6 +16,7 @@ public class AuthViewModel extends ViewModel {
 
     private final MutableLiveData<Response<Void>> loginState = new MutableLiveData<>();
     private final MutableLiveData<Response<Void>> registerState = new MutableLiveData<>();
+    private final MutableLiveData<Response<Void>> resetPasswordState = new MutableLiveData<>();
 
     public FirebaseUser getCurrentUser() {
         return mAuth.getCurrentUser();
@@ -56,9 +57,18 @@ public class AuthViewModel extends ViewModel {
         mAuth.signOut();
     }
 
+    public void sendPasswordResetEmail(String email) {
+        mAuth.sendPasswordResetEmail(email).addOnSuccessListener(aVoid -> {
+            resetPasswordState.setValue(Response.success("Reset password success", null));
+        }).addOnFailureListener(e -> {
+            resetPasswordState.setValue(Response.error(e.getMessage()));
+        });
+    }
+
     public LiveData<Response<Void>> getLoginState() {
         return loginState;
     }
     public LiveData<Response<Void>> getRegisterState() { return registerState; }
+    public LiveData<Response<Void>> getResetPasswordState() { return resetPasswordState; }
 
 }
